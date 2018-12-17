@@ -39,9 +39,17 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- Myql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- Busca Scripts SQL de migração - Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
 		</dependency>
 		
 	</dependencies>
