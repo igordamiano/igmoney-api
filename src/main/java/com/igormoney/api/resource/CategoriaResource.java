@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.igormoney.api.model.Categoria;
-import com.igormoney.api.repository.CategoriaRepoitory;
+import com.igormoney.api.repository.CategoriaRepository;
 
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaResource {
 	
 	@Autowired
-	private CategoriaRepoitory categoriaRepoitory;
+	private CategoriaRepository categoriaRepoitory;
 	
 	@GetMapping
 	public List<Categoria> listar(){
