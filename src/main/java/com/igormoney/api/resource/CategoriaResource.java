@@ -1,7 +1,6 @@
 package com.igormoney.api.resource;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -26,30 +25,30 @@ import com.igormoney.api.repository.CategoriaRepository;
 public class CategoriaResource {
 	
 	@Autowired
-	private CategoriaRepository categoriaRepoitory;
+	private CategoriaRepository categoriaRepository;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher; 
 	
 	@GetMapping
 	public List<Categoria> listar(){
-		return categoriaRepoitory.findAll();
+		return categoriaRepository.findAll();
 	}
 	
 	@PostMapping
 	//@ResponseStatus(HttpStatus.CREATED) -- Não precisa mais da anotação para Status Usando o retorno ResponseEntity<Categoria> 
 	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
-		Categoria categoriaSalva = categoriaRepoitory.save(categoria);
+		Categoria categoriaSalva = categoriaRepository.save(categoria);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
 	}
 	
 		
 	@GetMapping("/{codigo}")
-	public Optional<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
-		
-		return categoriaRepoitory.findById(codigo);
-	}
-	
+	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
+
+		Categoria categoria = categoriaRepository.findById(codigo).orElse(null);
+		return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
+	}	
 
 }
